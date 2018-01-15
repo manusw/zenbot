@@ -1,5 +1,13 @@
 #!/bin/sh
 
+verify_environment() {
+  if [[ $(node -v | grep -q "v9" ; echo $?) -gt 0 ]];
+  then
+    echo "not node 9"
+    exit 0
+  fi
+}
+
 setup_git() {
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "Travis CI"
@@ -21,6 +29,7 @@ upload_files() {
   git push --quiet --set-upstream upstream unstable
 }
 
+verify_environment
 setup_git
 run_cron
 upload_files
